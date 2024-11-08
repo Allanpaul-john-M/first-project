@@ -1,0 +1,54 @@
+<project name="HelloWorld" basedir="." default="run">
+
+   <property name="src.dir" value="src"/>
+   <property name="build.dir" value="build"/>
+   <property name="classes.dir" value="${build.dir}/classes"/>
+   <property name="dist.dir" value="dist"/>
+
+   <target name="clean">
+      <delete dir="${build.dir}"/>
+   </target>
+
+   <target name="compile" depends="clean">
+      <mkdir dir="${classes.dir}"/> 
+      <javac srcdir="${src.dir}" destdir="${classes.dir}"/> 
+   </target>
+
+   <target name="run" depends="compile">
+      <echo message="HelloWorld"/>
+      <java classname="antproject.HelloWorld" classpath="${classes.dir}" fork="true"/>
+      <echo message="Add Two Numbers"/>
+      <java classname="antproject.AddTwoNumber" classpath="${classes.dir}" fork="true"/>
+      <echo message="MultipleNumber"/>
+      <java classname="antproject.MultipleNumber" classpath="${classes.dir}" fork="true"/>
+      <echo message="MathOperator"/>
+      <java classname="antproject.MathOperator" classpath="${classes.dir}" fork="true"/>
+   </target>
+
+   <target name="dist" depends="compile">
+      <mkdir dir="${dist.dir}"/>
+      <jar destfile="${dist.dir}/HelloWorld.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="antproject.HelloWorld"/>
+            </manifest>
+      </jar>
+      <jar destfile="${dist.dir}/AddTwoNumber.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="antproject.AddTwoNumber"/>
+            </manifest>
+      </jar>
+      <jar destfile="${dist.dir}/MultipleNumber.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="antproject.MultipleNumber"/>
+            </manifest>
+      </jar>
+      <jar destfile="${dist.dir}/MathOperator.jar" basedir="${classes.dir}">
+            <manifest>
+                <attribute name="Main-Class" value="antproject.MathOperator"/>
+            </manifest>
+      </jar>
+   </target>
+
+   <target name="all" depends="clean, compile, run, dist" />
+
+</project>
